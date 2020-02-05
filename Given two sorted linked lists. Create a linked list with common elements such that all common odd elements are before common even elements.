@@ -1,0 +1,79 @@
+import java.util.*;
+/*
+ class ListNode<t> {
+	public t data;
+	public ListNode<t> next;
+	public ListNode(t data)
+	{
+ this.data=data;
+	}
+ }
+ */
+public class solution {
+    
+    public static ListNode<Integer> AlterList(ListNode<Integer> head1,  ListNode<Integer> head2) {
+      
+        HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+        
+        while(head1!=null){
+            
+            if(map.containsKey(head1.data)){
+                 map.put(head1.data,map.get(head1.data)+1);
+            }
+            else{
+              map.put(head1.data,1);
+            }
+            head1=head1.next;
+        }
+        ListNode<Integer> evenHead=null;
+        ListNode<Integer> oddHead=null;
+        ListNode<Integer> evenTail=null;
+        ListNode<Integer> oddTail=null;
+        while(head2!=null){
+            if(map.containsKey(head2.data) && map.get(head2.data)>0){
+                
+                if(head2.data%2==0){
+                    
+                    if(evenHead==null){
+                        evenHead=head2;
+                        evenTail=evenHead;
+                    }else{
+                        evenTail.next=head2;
+                        evenTail=evenTail.next;
+                    }
+                    
+                }else{
+                    
+                    if(oddHead==null){
+                        oddHead=head2;
+                        oddTail=oddHead;
+                    }
+                    
+                    else{
+                        oddTail.next=head2;
+                        oddTail=oddTail.next;
+                    }
+                }
+               map.put(head2.data,map.get(head2.data)-1);     
+                
+            }
+            head2=head2.next;
+            
+        }
+        if(oddHead==null && evenHead==null){
+            return null;
+        }
+        if(oddHead==null){
+            evenTail.next=null;
+            return evenHead;
+        }
+        if(evenHead==null){
+            oddTail.next=null;
+            return oddHead;
+        }
+        oddTail.next=evenHead;
+        evenTail.next=null;
+        return oddHead;
+    }
+    
+}
